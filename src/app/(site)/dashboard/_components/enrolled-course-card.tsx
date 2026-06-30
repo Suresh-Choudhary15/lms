@@ -11,10 +11,7 @@ export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
     : `/courses/${course.slug}`;
 
   return (
-    <Link
-      href={href}
-      className="group flex h-full flex-col overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-    >
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
       <div className="relative aspect-video overflow-hidden bg-muted">
         <Image
           src={course.thumbnailUrl}
@@ -42,7 +39,13 @@ export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         <h3 className="line-clamp-2 text-base font-semibold leading-snug group-hover:text-primary">
-          {course.title}
+          {/* Stretched link: covers the whole card, sits under the certificate link. */}
+          <Link
+            href={href}
+            className="static after:absolute after:inset-0 after:z-0 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {course.title}
+          </Link>
         </h3>
         <div className="mt-auto pt-4">
           <div className="mb-1.5 flex items-center justify-between text-xs">
@@ -52,8 +55,16 @@ export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
             </span>
           </div>
           <Progress value={course.percent} />
+          {course.isComplete ? (
+            <Link
+              href={`/courses/${course.slug}/certificate`}
+              className="relative z-10 mt-3 block text-center text-xs font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              View certificate
+            </Link>
+          ) : null}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

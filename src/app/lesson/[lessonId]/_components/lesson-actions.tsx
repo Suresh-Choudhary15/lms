@@ -36,10 +36,28 @@ export function LessonActions({
         toast.error(result.error);
         return;
       }
+
       if (result.completed) {
-        toast.success(
-          nextLessonId ? "Lesson complete! On to the next one." : "Lesson complete!",
-        );
+        if (result.courseCompleted) {
+          toast.success("🎉 Course complete! You finished every lesson.", {
+            description: "Your certificate of completion is ready.",
+            action: {
+              label: "View certificate",
+              onClick: () =>
+                router.push(`/courses/${result.courseSlug}/certificate`),
+            },
+            duration: 8000,
+          });
+        } else if (nextLessonId) {
+          toast.success("Lesson complete! On to the next one.", {
+            action: {
+              label: "Next lesson",
+              onClick: () => router.push(`/lesson/${nextLessonId}`),
+            },
+          });
+        } else {
+          toast.success("Lesson complete!");
+        }
       }
       router.refresh();
     });

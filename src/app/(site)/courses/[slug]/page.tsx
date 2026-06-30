@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BookOpen, CheckCircle2, Clock, Layers } from "lucide-react";
 import { Container } from "@/components/shared/container";
@@ -140,6 +141,14 @@ export default async function CourseDetailPage({
                       </span>
                     </div>
                     <Progress value={progress.percent} />
+                    {progress.percent === 100 ? (
+                      <Link
+                        href={`/courses/${course.slug}/certificate`}
+                        className="block text-center text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        🎓 View your certificate
+                      </Link>
+                    ) : null}
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
@@ -185,7 +194,9 @@ export default async function CourseDetailPage({
 
               {outcomes.length > 0 ? (
                 <div className="space-y-3">
-                  <h2 className="text-xl font-semibold">What you&apos;ll learn</h2>
+                  <h2 className="text-xl font-semibold">
+                    What you&apos;ll learn
+                  </h2>
                   <ul className="grid gap-3 sm:grid-cols-2">
                     {outcomes.map((outcome) => (
                       <li key={outcome} className="flex gap-2.5">
