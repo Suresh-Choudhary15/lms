@@ -95,21 +95,34 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
     .filter((c) => !c.isComplete && c.lastActivityAt)
     .sort(
       (a, b) =>
-        (b.lastActivityAt?.getTime() ?? 0) -
-        (a.lastActivityAt?.getTime() ?? 0),
+        (b.lastActivityAt?.getTime() ?? 0) - (a.lastActivityAt?.getTime() ?? 0),
     );
   const continueLearning =
     activeIncomplete[0] ?? enrolled.find((c) => !c.isComplete) ?? null;
 
+  const orderedCourses = [...enrolled].sort((a, b) => {
+    // Completed courses always come last.
+    if (a.isComplete !== b.isComplete) {
+      return a.isComplete ? 1 : -1;
+    }
+
+    // More recently active courses first.
+    const aTime = a.lastActivityAt?.getTime() ?? 0;
+    const bTime = b.lastActivityAt?.getTime() ?? 0;
+
+    return bTime - aTime;
+  });
+
   return {
-    enrolled,
+    enrolled: orderedCourses,
     continueLearning,
     stats: {
       enrolledCount: enrolled.length,
       completedCourses: enrolled.filter((c) => c.isComplete).length,
       completedLessons: progress.length,
-      inProgress: enrolled.filter((c) => !c.isComplete && c.completedLessons > 0)
-        .length,
+      inProgress: enrolled.filter(
+        (c) => !c.isComplete && c.completedLessons > 0,
+      ).length,
     },
   };
 }

@@ -26,7 +26,7 @@ export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
             className="absolute left-3 top-3 bg-background/90 backdrop-blur"
           >
             <CheckCircle2 className="mr-1 size-3.5" />
-            Completed
+            Course completed
           </Badge>
         ) : (
           <Badge
@@ -60,7 +60,7 @@ export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
               href={`/courses/${course.slug}/certificate`}
               className="relative z-10 mt-3 block text-center text-xs font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              View certificate
+              View certificate →
             </Link>
           ) : null}
         </div>
