@@ -67,19 +67,19 @@ export default async function CertificatePage({
             <GraduationCap className="size-7" />
           </div>
 
-          <p className="mt-6 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="mt-6 text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground">
             Certificate of Completion
           </p>
 
-          <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="mt-5 text-balance text-5xl font-extrabold tracking-tight sm:text-6xl">
             {certificate.learnerName}
           </h1>
 
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             has successfully completed all {certificate.lessonCount} lessons of
           </p>
 
-          <h2 className="mt-2 text-balance text-xl font-semibold sm:text-2xl">
+          <h2 className="mt-3 text-balance text-2xl font-semibold italic text-primary sm:text-2xl">
             {certificate.course.title}
           </h2>
 
@@ -87,6 +87,7 @@ export default async function CertificatePage({
 
           <div className="mt-8 flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end">
             <div className="text-left">
+              ──────────────
               <p className="text-sm font-medium">
                 {certificate.course.instructorName}
               </p>
@@ -94,7 +95,9 @@ export default async function CertificatePage({
                 {certificate.course.instructorTitle}
               </p>
             </div>
+
             <div className="sm:text-right">
+              ──────────────
               <p className="text-sm font-medium">{completedDate}</p>
               <p className="text-xs text-muted-foreground">Date completed</p>
             </div>
