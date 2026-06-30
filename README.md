@@ -17,26 +17,27 @@ with a single goal: **maximum product quality, minimum complexity.**
 - **Authentication** — simple, secure credentials auth with signed session cookies (no third-party services).
 - **Student dashboard** — continue learning, my courses with progress, stats, and recommendations.
 - **Lesson player** — embedded YouTube video, chapter/lesson sidebar, previous/next navigation, and mark-complete with live progress tracking.
+- **Course completion certificates** — automatically unlock a printable certificate when every lesson in a course is completed.
 - **Polish everywhere** — light/dark mode, loading skeletons, empty states, friendly error states, keyboard accessibility, and full responsiveness (mobile → desktop).
 
 ---
 
 ## 🧱 Tech Stack
 
-| Concern          | Choice                                  |
-| ---------------- | --------------------------------------- |
-| Framework        | **Next.js 15** (App Router)             |
-| Language         | **TypeScript** (strict)                 |
-| Styling          | **Tailwind CSS v4**                     |
-| UI primitives    | **shadcn/ui**-style components on Radix |
-| Icons            | **lucide-react**                        |
-| Theme            | **next-themes**                         |
-| Database         | **SQLite**                              |
-| ORM              | **Prisma**                              |
-| Mutations        | **Server Actions**                      |
-| Validation       | **Zod** (shared client + server)        |
-| Forms            | **React Hook Form**                     |
-| Toasts           | **sonner**                              |
+| Concern       | Choice                                  |
+| ------------- | --------------------------------------- |
+| Framework     | **Next.js 15** (App Router)             |
+| Language      | **TypeScript** (strict)                 |
+| Styling       | **Tailwind CSS v4**                     |
+| UI primitives | **shadcn/ui**-style components on Radix |
+| Icons         | **lucide-react**                        |
+| Theme         | **next-themes**                         |
+| Database      | **SQLite**                              |
+| ORM           | **Prisma**                              |
+| Mutations     | **Server Actions**                      |
+| Validation    | **Zod** (shared client + server)        |
+| Forms         | **React Hook Form**                     |
+| Toasts        | **sonner**                              |
 
 No global state library, no REST boilerplate, no payment/OAuth/cloud
 dependencies. Everything runs locally with zero external configuration.
@@ -64,10 +65,10 @@ A `.env` is included for local development. For your own setup, copy the example
 cp .env.example .env
 ```
 
-| Variable       | Description                              |
-| -------------- | ---------------------------------------- |
+| Variable       | Description                                |
+| -------------- | ------------------------------------------ |
 | `DATABASE_URL` | SQLite connection string (`file:./dev.db`) |
-| `AUTH_SECRET`  | Secret used to sign session cookies       |
+| `AUTH_SECRET`  | Secret used to sign session cookies        |
 
 ### 3. Create the database and seed it
 
@@ -94,24 +95,25 @@ Password: password123
 ```
 
 The demo account is already enrolled in two courses with partial progress, so the
-dashboard and lesson player are populated on first sign-in. (The login screen has
+dashboard and lesson player are populated on first sign-in. Complete all lessons
+in a course to unlock its printable completion certificate. (The login screen has
 a **"Use demo account"** button that fills these in for you.)
 
 ---
 
 ## 📜 Scripts
 
-| Script              | Description                                  |
-| ------------------- | -------------------------------------------- |
-| `npm run dev`       | Start the dev server                         |
-| `npm run build`     | Production build (runs `prisma generate`)    |
-| `npm run start`     | Start the production server                  |
-| `npm run lint`      | ESLint                                       |
-| `npm run typecheck` | TypeScript type-check (no emit)              |
-| `npm run db:push`   | Apply the Prisma schema to SQLite            |
-| `npm run db:seed`   | Seed sample data                             |
-| `npm run db:reset`  | Reset + reseed the database                  |
-| `npm run db:studio` | Open Prisma Studio                           |
+| Script              | Description                               |
+| ------------------- | ----------------------------------------- |
+| `npm run dev`       | Start the dev server                      |
+| `npm run build`     | Production build (runs `prisma generate`) |
+| `npm run start`     | Start the production server               |
+| `npm run lint`      | ESLint                                    |
+| `npm run typecheck` | TypeScript type-check (no emit)           |
+| `npm run db:push`   | Apply the Prisma schema to SQLite         |
+| `npm run db:seed`   | Seed sample data                          |
+| `npm run db:reset`  | Reset + reseed the database               |
+| `npm run db:studio` | Open Prisma Studio                        |
 
 ---
 
@@ -132,7 +134,7 @@ src/
   lib/
     actions/           # server actions (auth, enrollment, progress)
     auth/              # session, password hashing, current-user helpers
-    queries/           # server-side read helpers (courses, dashboard, lesson)
+    queries/           # server-side read helpers (courses, dashboard, lesson, certificates)
     validators/        # shared Zod schemas
     db.ts              # Prisma client singleton
     utils.ts           # cn, formatDuration, …
@@ -165,6 +167,7 @@ Six entities, nothing speculative. The hierarchy is fixed:
   are stateless, signed (HMAC) httpOnly cookies. No NextAuth, no JWT library.
 - **Feature colocation.** Each route owns its `loading.tsx`, feature components
   (`_components/`), and forms.
+- **Completion-based achievements.** Lesson progress is tracked per user and automatically unlocks printable course completion certificates once every lesson in a course has been completed.
 - **Accessibility & responsiveness are built in**, not bolted on: semantic HTML,
   visible focus rings, keyboard-navigable menus, and reduced-motion support.
 
@@ -190,7 +193,7 @@ The app deploys cleanly to **Vercel**.
 
 ## 🔮 Out of Scope (intentionally — these belong in v2)
 
-Payments · Certificates · Quizzes · Reviews & ratings · AI tutor · Search engine ·
+Payments · Quizzes · Reviews & ratings · AI tutor · Search engine ·
 Notifications · OAuth / social login · Instructor & admin dashboards · Discussion
 forums · Analytics.
 
