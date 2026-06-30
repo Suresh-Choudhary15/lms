@@ -1,11 +1,11 @@
 import { PrismaClient } from "@/generated/prisma";
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
 
+type GlobalForPrisma = typeof globalThis & { prisma?: PrismaClient };
+
 // Reuse a single PrismaClient across hot reloads in development to avoid
 // exhausting the database connection pool.
-const globalForPrisma = globalThis as {
-  prisma?: PrismaClient;
-};
+const globalForPrisma = globalThis as GlobalForPrisma;
 
 /**
  * Builds the libSQL driver adapter. Works two ways:
@@ -14,29 +14,14 @@ const globalForPrisma = globalThis as {
  *  - Production on Turso: set TURSO_DATABASE_URL ("libsql://...") and
  *    TURSO_AUTH_TOKEN, which take priority when present.
  */
-function createPrismaClient() {
-  const tursoUrl = process.env.TURSO_DATABASE_URL;
-  const tursoToken = process.env.TURSO_AUTH_TOKEN;
-
-  // Use Turso only when BOTH variables are present
-  if (tursoUrl && tursoToken) {
-    return new PrismaClient({
-      adapter: new PrismaLibSQL({
-        url: tursoUrl,
-        authToken: tursoToken,
-      }),
-      log:
-        process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-    });
-  }
-
-  // Otherwise use local SQLite
-  return new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
+export const db =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    adapter: new PrismaLibSQL({
+      url: process.env.DATABASE_URL!,
+      authToken: process.env.TURSO_AUTH_TOKEN!,
+    }),
   });
-}
-
-export const db = globalForPrisma.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = db;
