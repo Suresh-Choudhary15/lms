@@ -31,16 +31,42 @@ export default async function DashboardPage() {
   const firstName = user.name.split(" ")[0];
   const hasCourses = data.enrolled.length > 0;
 
+  const hour = new Date().getHours();
+
+  let greeting: string;
+  let subtitle: string;
+
+  if (hour >= 5 && hour < 12) {
+    greeting = `Good morning, ${firstName} 👋`;
+    subtitle = hasCourses
+      ? "Ready to continue where you left off?"
+      : "Today is a great day to start learning.";
+  } else if (hour >= 12 && hour < 17) {
+    greeting = `Good afternoon, ${firstName} 👋`;
+    subtitle = hasCourses
+      ? "Keep your learning momentum going."
+      : "Explore a course and build a new skill today.";
+  } else if (hour >= 17 && hour < 22) {
+    greeting = `Good evening, ${firstName} 👋`;
+    subtitle = hasCourses
+      ? "A perfect time to finish another lesson."
+      : "Wind down by learning something new.";
+  } else {
+    greeting = `Good night, ${firstName} 🌙`;
+    subtitle = hasCourses
+      ? "Every lesson completed today counts."
+      : "Plan tomorrow's learning journey.";
+  }
+
   return (
     <Container className="py-10 sm:py-12">
-      <div className="space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Welcome back, {firstName}
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          {greeting}
         </h1>
-        <p className="text-muted-foreground">
-          {hasCourses
-            ? "Pick up where you left off and keep your momentum going."
-            : "Let's find your first course and start learning."}
+
+        <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
+          {subtitle}
         </p>
       </div>
 
