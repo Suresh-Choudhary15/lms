@@ -1,7 +1,19 @@
 import { PrismaClient, type Level } from "../src/generated/prisma/index.js";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { randomBytes, scryptSync } from "node:crypto";
 
-const db = new PrismaClient();
+let db: PrismaClient;
+
+if (process.env.TURSO_DATABASE_URL && process.env.NODE_ENV === "production") {
+  const adapter = new PrismaLibSQL({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  });
+
+  db = new PrismaClient({ adapter });
+} else {
+  db = new PrismaClient();
+}
 
 // Local copy of the password hashing format used by src/lib/auth/password.ts.
 function hashPassword(password: string): string {
@@ -298,7 +310,8 @@ const COURSES: SeedCourse[] = [
           },
           {
             title: "Exploring & Summarizing",
-            description: "Ask questions of your data and answer them with code.",
+            description:
+              "Ask questions of your data and answer them with code.",
             youtubeId: "rfscVS0vtbw",
             durationSeconds: 1240,
           },

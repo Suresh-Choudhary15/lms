@@ -1,6 +1,3 @@
-// LMS data model — intentionally small (6 entities).
-// Hierarchy: Course -> Chapter -> Lesson. Progress tracked per (User, Lesson).
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -12,63 +9,56 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
+  id           String           @id @default(cuid())
   name         String
-  email        String   @unique
+  email        String           @unique
   passwordHash String
-  createdAt    DateTime @default(now())
-
-  enrollments Enrollment[]
-  progress    LessonProgress[]
+  createdAt    DateTime         @default(now())
+  enrollments  Enrollment[]
+  progress     LessonProgress[]
 }
 
 model Course {
-  id               String   @id @default(cuid())
-  slug             String   @unique
+  id               String       @id @default(cuid())
+  slug             String       @unique
   title            String
   subtitle         String
   description      String
   category         String
   level            Level
   thumbnailUrl     String
-  // What the learner will be able to do — stored as newline-separated lines.
   learningOutcomes String
-  // Instructor kept as denormalized fields (no separate model in MVP scope).
   instructorName   String
   instructorTitle  String
   instructorBio    String
   instructorAvatar String
-  featured         Boolean  @default(false)
-  createdAt        DateTime @default(now())
-
-  chapters    Chapter[]
-  enrollments Enrollment[]
+  featured         Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  chapters         Chapter[]
+  enrollments      Enrollment[]
 }
 
 model Chapter {
-  id       String @id @default(cuid())
+  id       String   @id @default(cuid())
   title    String
   position Int
   courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  lessons Lesson[]
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
 
   @@unique([courseId, position])
 }
 
 model Lesson {
-  id              String @id @default(cuid())
+  id              String           @id @default(cuid())
   title           String
   description     String
-  // YouTube video id (the part after watch?v=).
   youtubeId       String
   durationSeconds Int
   position        Int
   chapterId       String
-  chapter         Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-
-  progress LessonProgress[]
+  chapter         Chapter          @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  progress        LessonProgress[]
 
   @@unique([chapterId, position])
 }
@@ -78,9 +68,8 @@ model Enrollment {
   userId     String
   courseId   String
   enrolledAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
   @@index([userId])
@@ -92,9 +81,8 @@ model LessonProgress {
   lessonId    String
   completed   Boolean  @default(true)
   completedAt DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
   @@index([userId])
