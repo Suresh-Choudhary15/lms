@@ -13,6 +13,9 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "db:reset": "prisma db push --force-reset && tsx prisma/seed.ts",
+    "db:turso:generate": "prisma generate --schema prisma/schema.turso.prisma",
+    "db:turso:push": "prisma db push --schema prisma/schema.turso.prisma",
+    "db:turso:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {
