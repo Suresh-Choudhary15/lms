@@ -76,21 +76,25 @@ export default async function DashboardPage() {
           icon={BookMarked}
           label="Enrolled courses"
           value={data.stats.enrolledCount}
+          description="Currently enrolled"
         />
         <StatCard
           icon={TrendingUp}
           label="In progress"
           value={data.stats.inProgress}
+          description="Actively learning"
         />
         <StatCard
           icon={CheckCircle2}
           label="Lessons completed"
           value={data.stats.completedLessons}
+          description="Across all courses"
         />
         <StatCard
           icon={GraduationCap}
           label="Courses completed"
           value={data.stats.completedCourses}
+          description="Ready to showcase"
         />
       </div>
 
