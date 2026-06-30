@@ -46,7 +46,7 @@ export default async function CertificatePage({
   });
 
   return (
-    <div className="min-h-dvh bg-muted/30 print:bg-white">
+    <div className="min-h-dvh bg-muted/30 print:min-h-0 print:bg-white">
       <header className="border-b bg-background print:hidden">
         <Container className="flex h-16 items-center justify-between">
           <Logo />
@@ -60,9 +60,9 @@ export default async function CertificatePage({
         </Container>
       </header>
 
-      <Container className="flex flex-col items-center gap-6 py-12 sm:py-16">
+      <Container className="flex flex-col items-center gap-6 py-12 sm:py-16 print:max-w-none print:py-0">
         {/* Certificate */}
-        <div className="w-full max-w-3xl rounded-2xl border-4 border-double border-primary/30 bg-card p-8 text-center shadow-sm sm:p-14 print:border-2 print:shadow-none">
+        <div className="certificate-print w-full max-w-3xl rounded-2xl border-4 border-double border-primary/30 bg-card p-8 text-center shadow-sm sm:p-14 print:border-2 print:shadow-none">
           <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
             <GraduationCap className="size-7" />
           </div>

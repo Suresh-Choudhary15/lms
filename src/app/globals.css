@@ -158,3 +158,38 @@
     }
   }
 }
+
+/* ==========================================================
+   Certificate Printing
+   ========================================================== */
+
+@page {
+  size: A4 landscape;
+  margin: 16mm;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  header,
+  footer,
+  nav {
+    display: none !important;
+  }
+
+  .certificate-print {
+    width: 100%;
+    max-width: none !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  a,
+  button {
+    display: none !important;
+  }
+}
