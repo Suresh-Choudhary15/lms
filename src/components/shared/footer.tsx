@@ -1,17 +1,31 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { Logo } from "@/components/shared/logo";
+import { getCurrentUser } from "@/lib/auth/current-user";
 
-const FOOTER_LINKS = [
-  { label: "Courses", href: "/courses" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Sign in", href: "/login" },
-];
+// const FOOTER_LINKS = [
+//   { label: "Courses", href: "/courses" },
+//   { label: "Dashboard", href: "/dashboard" },
+//   { label: "Sign in", href: "/login" },
+// ];
 
-export function Footer() {
+export async function Footer() {
+  const user = await getCurrentUser();
+
+  const footerLinks = user
+    ? [
+        { label: "Courses", href: "/courses" },
+        { label: "My Learning", href: "/dashboard" },
+      ]
+    : [
+        { label: "Courses", href: "/courses" },
+        { label: "Sign in", href: "/login" },
+        { label: "Get started", href: "/register" },
+      ];
+
   return (
     <footer className="mt-auto border-t bg-card">
-      <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+      <Container className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-3">
           <Logo />
           <p className="max-w-xs text-sm text-muted-foreground">
@@ -23,7 +37,7 @@ export function Footer() {
           className="flex flex-wrap gap-x-6 gap-y-2"
           aria-label="Footer navigation"
         >
-          {FOOTER_LINKS.map((link) => (
+          {footerLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
