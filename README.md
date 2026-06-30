@@ -9,6 +9,10 @@ with a single goal: **maximum product quality, minimum complexity.**
 
 ---
 
+![landing Page](<docs/Landing Page.png>) ![Sign In Page](<docs/Sign-In Page.png>) ![Dashboard page](<docs/dashboard page.png>) ![Courses Page](<docs/course page.png>) ![Certificate Page](<docs/Certificate Page.png>)
+
+---
+
 ## ✨ Features
 
 - **Landing page** — clear hero, featured courses, and a focused value proposition.
