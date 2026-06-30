@@ -7,6 +7,8 @@ import { LandingHero } from "./_components/landing-hero";
 import { FeatureHighlights } from "./_components/feature-highlights";
 import { CtaSection } from "./_components/cta-section";
 
+export const dynamic = "force-dynamic";
+
 export default async function LandingPage() {
   const [featured, courseCount, lessonCount] = await Promise.all([
     getFeaturedCourses(),
@@ -27,11 +29,7 @@ export default async function LandingPage() {
           />
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((course, index) => (
-              <CourseCard
-                key={course.id}
-                {...course}
-                priority={index < 3}
-              />
+              <CourseCard key={course.id} {...course} priority={index < 3} />
             ))}
           </div>
         </Container>
