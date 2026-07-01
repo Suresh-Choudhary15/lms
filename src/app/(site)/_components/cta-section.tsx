@@ -16,7 +16,8 @@ export function CtaSection() {
             progress is saved automatically.
           </p>
           <Button asChild size="lg" variant="secondary" className="mt-7">
-            <Link href="/register">
+            {/* <Link href="/,register"> */}
+            <Link href="/courses">
               Create your free account
               <ArrowRight />
             </Link>

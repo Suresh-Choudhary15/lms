@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
-import { getCurrentUser, requireUser } from "@/lib/auth/current-user";
+// import { getCurrentUser, requireUser } from "@/lib/auth/current-user";
 import { getLessonContext } from "@/lib/queries/lesson";
 import { formatDuration } from "@/lib/utils";
 import { LessonPlayer } from "./_components/lesson-player";
@@ -19,9 +19,12 @@ export async function generateMetadata({
   params: Promise<{ lessonId: string }>;
 }): Promise<Metadata> {
   const { lessonId } = await params;
-  const user = await getCurrentUser();
-  if (!user) return { title: "Lesson" };
-  const ctx = await getLessonContext(user.id, lessonId);
+
+  // const user = await getCurrentUser();
+  // if (!user) return { title: "Lesson" };
+
+  // const ctx = await getLessonContext(user.id, lessonId);
+  const ctx = await getLessonContext("", lessonId);
   if (!ctx) return { title: "Lesson" };
   return { title: `${ctx.lesson.title} · ${ctx.course.title}` };
 }
@@ -32,8 +35,9 @@ export default async function LessonPage({
   params: Promise<{ lessonId: string }>;
 }) {
   const { lessonId } = await params;
-  const user = await requireUser(`/lesson/${lessonId}`);
-  const ctx = await getLessonContext(user.id, lessonId);
+  // const user = await requireUser(`/lesson/${lessonId}`);
+  // const ctx = await getLessonContext(user.id, lessonId);
+  const ctx = await getLessonContext("", lessonId);
   if (!ctx) notFound();
 
   // Progress can only be tracked for enrolled courses — send others to enroll.

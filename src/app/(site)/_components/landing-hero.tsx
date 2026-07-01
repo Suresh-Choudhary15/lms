@@ -39,7 +39,8 @@ export function LandingHero({
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link href="/register">
+            {/* <Link href="/register"> */}
+            <Link href="/">
               <PlayCircle />
               Start learning free
             </Link>

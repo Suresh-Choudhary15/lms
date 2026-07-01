@@ -10,12 +10,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { levelLabel } from "@/components/shared/level-badge";
 import { formatDuration } from "@/lib/utils";
-import { db } from "@/lib/db";
-import { getCurrentUser } from "@/lib/auth/current-user";
+
+// import { db } from "@/lib/db";
+// import { getCurrentUser } from "@/lib/auth/current-user";
 import {
   getCourseBySlug,
-  getCourseProgress,
-  isEnrolled,
+  // getCourseProgress,
+  // isEnrolled,
 } from "@/lib/queries/courses";
 import { EnrollButton } from "./enroll-button";
 import { Curriculum } from "./curriculum";
@@ -40,24 +41,31 @@ export default async function CourseDetailPage({
   const course = await getCourseBySlug(slug);
   if (!course) notFound();
 
-  const user = await getCurrentUser();
-  const enrolled = await isEnrolled(user?.id, course.id);
-
+  // const user = await getCurrentUser();
+  // const enrolled = await isEnrolled(user?.id, course.id);
+  const enrolled = true;
   const lessons = course.chapters.flatMap((c) => c.lessons);
   const totalDuration = lessons.reduce((s, l) => s + l.durationSeconds, 0);
 
   // Completion state only matters when the learner is enrolled.
-  let completedIds = new Set<string>();
-  let progress: { completed: number; total: number; percent: number } | null =
-    null;
-  if (user && enrolled) {
-    const rows = await db.lessonProgress.findMany({
-      where: { userId: user.id, lessonId: { in: lessons.map((l) => l.id) } },
-      select: { lessonId: true },
-    });
-    completedIds = new Set(rows.map((r) => r.lessonId));
-    progress = await getCourseProgress(user.id, course.id);
-  }
+  // let completedIds = new Set<string>();
+  // let progress: { completed: number; total: number; percent: number } | null =
+  //   null;
+  // if (user && enrolled) {
+  //   const rows = await db.lessonProgress.findMany({
+  //     where: { userId: user.id, lessonId: { in: lessons.map((l) => l.id) } },
+  //     select: { lessonId: true },
+  //   });
+  //   completedIds = new Set(rows.map((r) => r.lessonId));
+  //   progress = await getCourseProgress(user.id, course.id);
+  // }
+  const completedIds = new Set<string>();
+
+  const progress = {
+    completed: 0,
+    total: lessons.length,
+    percent: 0,
+  };
 
   const resumeLessonId =
     lessons.find((l) => !completedIds.has(l.id))?.id ?? lessons[0]?.id ?? null;

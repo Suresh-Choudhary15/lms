@@ -1,12 +1,12 @@
-import Link from "next/link";
+// import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { Logo } from "@/components/shared/logo";
 import { NavLinks } from "@/components/shared/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { UserMenu } from "@/components/shared/user-menu";
+// import { UserMenu } from "@/components/shared/user-menu";
 import { MobileNav } from "@/components/shared/mobile-nav";
-import { Button } from "@/components/ui/button";
-import { getCurrentUser } from "@/lib/auth/current-user";
+// import { Button } from "@/components/ui/button";
+// import { getCurrentUser } from "@/lib/auth/current-user";
 
 // const NAV_ITEMS: NavItem[] = [
 //   { label: "Home", href: "/" },
@@ -15,8 +15,11 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 // ];
 
 export async function Navbar() {
-  const user = await getCurrentUser();
-
+  // const user = await getCurrentUser();
+  const user = {
+    id: "cmr1m2wxv0000qm5eq079v8gc",
+    name: "Alex Rivera",
+  };
   const navItems = user
     ? [
         { label: "Home", href: "/" },
@@ -41,7 +44,7 @@ export async function Navbar() {
 
         <div className="flex items-center gap-1 sm:gap-2">
           <ThemeToggle />
-          {user ? (
+          {/* {user ? (
             <UserMenu user={user} />
           ) : (
             <div className="hidden items-center gap-2 sm:flex">
@@ -52,7 +55,8 @@ export async function Navbar() {
                 <Link href="/register">Get started</Link>
               </Button>
             </div>
-          )}
+          )} */}
+          ...
           <MobileNav items={navItems} authed={Boolean(user)} />
         </div>
       </Container>

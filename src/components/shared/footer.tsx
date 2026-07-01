@@ -19,8 +19,8 @@ export async function Footer() {
       ]
     : [
         { label: "Courses", href: "/courses" },
-        { label: "Sign in", href: "/login" },
-        { label: "Get started", href: "/register" },
+        // { label: "Sign in", href: "/login" },
+        // { label: "Get started", href: "/register" },
       ];
 
   return (

@@ -48,10 +48,10 @@ export function MobileNav({
           ) : (
             <>
               <Button asChild variant="outline" onClick={close}>
-                <Link href="/login">Sign in</Link>
+                {/* <Link href="/login">Sign in</Link> */}
               </Button>
               <Button asChild onClick={close}>
-                <Link href="/register">Get started</Link>
+                {/* <Link href="/register">Get started</Link> */}
               </Button>
             </>
           )}
