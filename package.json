@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -13,9 +13,6 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "db:reset": "prisma db push --force-reset && tsx prisma/seed.ts",
-    "db:turso:generate": "prisma generate --schema prisma/schema.turso.prisma",
-    "db:turso:push": "prisma db push --schema prisma/schema.turso.prisma",
-    "db:turso:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {
@@ -23,8 +20,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
-    "@libsql/client": "^0.8.1",
-    "@prisma/adapter-libsql": "6.19.3",
     "@prisma/client": "^6.19.3",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-avatar": "^1.1.3",

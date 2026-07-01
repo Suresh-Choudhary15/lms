@@ -1,19 +1,7 @@
 import { PrismaClient, type Level } from "../src/generated/prisma/index.js";
-import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { randomBytes, scryptSync } from "node:crypto";
 
-let db: PrismaClient;
-
-if (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
-  const adapter = new PrismaLibSQL({
-    url: process.env.TURSO_DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-  });
-
-  db = new PrismaClient({ adapter });
-} else {
-  db = new PrismaClient();
-}
+const db = new PrismaClient();
 
 // Local copy of the password hashing format used by src/lib/auth/password.ts.
 function hashPassword(password: string): string {
