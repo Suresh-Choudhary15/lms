@@ -24,7 +24,8 @@ export async function generateMetadata({
   // if (!user) return { title: "Lesson" };
 
   // const ctx = await getLessonContext(user.id, lessonId);
-  const ctx = await getLessonContext("", lessonId);
+  const DEMO_USER_ID = "cmr1m2wxv0000qm5eq079v8gc";
+  const ctx = await getLessonContext(DEMO_USER_ID, lessonId);
   if (!ctx) return { title: "Lesson" };
   return { title: `${ctx.lesson.title} · ${ctx.course.title}` };
 }
@@ -37,7 +38,9 @@ export default async function LessonPage({
   const { lessonId } = await params;
   // const user = await requireUser(`/lesson/${lessonId}`);
   // const ctx = await getLessonContext(user.id, lessonId);
-  const ctx = await getLessonContext("", lessonId);
+  const DEMO_USER_ID = "cmr1m2wxv0000qm5eq079v8gc";
+
+  const ctx = await getLessonContext(DEMO_USER_ID, lessonId);
   if (!ctx) notFound();
 
   // Progress can only be tracked for enrolled courses — send others to enroll.
