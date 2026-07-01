@@ -9,9 +9,14 @@ with a single goal: **maximum product quality, minimum complexity.**
 
 ---
 
-## ☁️ Deployment
+## 🌐 Live Demo
 
-- **Live** -
+**URL:** https://pleasant-respect-production.up.railway.app/
+
+**Demo login:**
+
+- Email: `demo@lumen.dev`
+- Password: `password123`
 
 ---
 
